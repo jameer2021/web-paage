@@ -1,0 +1,172 @@
+
+  :root{
+    --bg:#f4f1ec;
+    --ink:#1c1a17;
+    --muted:#6f6a62;
+    --line:#d9d3c9;
+    --accent:#b8894a;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  img{display:block;width:100%;height:100%;object-fit:cover}
+
+  /* ---------- Journal module ---------- */
+  .journal{
+    max-width:1280px;
+    margin:0 auto;
+    padding:96px 32px 120px;
+  }
+
+  .journal-head{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:24px;
+    margin-bottom:56px;
+  }
+  .caption{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 18px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    font-size:13px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+    background:rgba(255,255,255,.45);
+  }
+  .caption::before{
+    content:"";
+    width:7px;height:7px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 4px rgba(184,137,74,.2);
+  }
+  .journal-head h2{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:500;
+    font-size:clamp(40px,6vw,76px);
+    line-height:1.04;
+    letter-spacing:-.01em;
+    max-width:760px;
+  }
+
+  /* Tabs (CSS-only, radio driven) */
+  .journal input[type="radio"]{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+  }
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:56px;
+  }
+  .tabs label{
+    cursor:pointer;
+    padding:11px 24px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    font-size:15px;
+    color:var(--muted);
+    transition:background .3s,color .3s,border-color .3s,transform .3s;
+  }
+  .tabs label:hover{border-color:var(--ink);color:var(--ink)}
+  .journal:has(#t1:checked) label[for="t1"],
+  .journal:has(#t2:checked) label[for="t2"],
+  .journal:has(#t3:checked) label[for="t3"],
+  .journal:has(#t4:checked) label[for="t4"],
+  .journal:has(#t5:checked) label[for="t5"]{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:#fff;
+  }
+  .journal input:focus-visible ~ .tabs{outline:none}
+  .journal:has(#t1:focus-visible) label[for="t1"],
+  .journal:has(#t2:focus-visible) label[for="t2"],
+  .journal:has(#t3:focus-visible) label[for="t3"],
+  .journal:has(#t4:focus-visible) label[for="t4"],
+  .journal:has(#t5:focus-visible) label[for="t5"]{outline:2px solid var(--accent);outline-offset:3px}
+
+  /* Filtering */
+  .journal:has(#t2:checked) .card:not(.sustainability),
+  .journal:has(#t3:checked) .card:not(.daylight),
+  .journal:has(#t4:checked) .card:not(.industry),
+  .journal:has(#t5:checked) .card:not(.hospitality){display:none}
+
+  /* Grid */
+  .grid{
+    list-style:none;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:48px 28px;
+  }
+  .card{animation:rise .6s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+  .card a{display:flex;flex-direction:column;gap:22px}
+  .thumb{
+    aspect-ratio:4/4.4;
+    overflow:hidden;
+    border-radius:var(--radius);
+    background:#e4ded3;
+  }
+  .thumb img{transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+  .card a:hover .thumb img{transform:scale(1.07)}
+
+  .meta{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:14px;
+    color:var(--muted);
+    margin-bottom:12px;
+  }
+  .meta span + span{
+    position:relative;
+    padding-left:14px;
+  }
+  .meta span + span::before{
+    content:"";
+    position:absolute;left:0;top:50%;
+    width:4px;height:4px;border-radius:50%;
+    background:var(--accent);
+    transform:translateY(-50%);
+  }
+  .card h3{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:500;
+    font-size:29px;
+    line-height:1.15;
+    background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;
+    display:inline;
+    transition:background-size .5s ease;
+  }
+  .card a:hover h3{background-size:100% 1px}
+
+  /* Responsive */
+  @media (max-width:991px){
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .journal{padding:72px 24px 96px}
+  }
+  @media (max-width:600px){
+    .grid{grid-template-columns:1fr;gap:40px}
+    .journal{padding:56px 18px 72px}
+    .tabs{gap:8px}
+    .tabs label{padding:9px 18px;font-size:14px}
+    .card h3{font-size:26px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+  }
